@@ -1,20 +1,88 @@
 [gd_scene format=3 uid="uid://dj4jq5bthrvpy"]
 
 [ext_resource type="Script" uid="uid://dkgla88p6y2" path="res://Assets/Scripts/player.gd" id="1_6cd4h"]
+[ext_resource type="Texture2D" uid="uid://dkd15tlwhljac" path="res://Assets/Sprites/player_alt1.png" id="2_7dd06"]
+
+[sub_resource type="Animation" id="Animation_7dd06"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Animtator/Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 16, 16)]
+}
+
+[sub_resource type="Animation" id="Animation_t1xgp"]
+resource_name = "idle"
+length = 9.0
+loop_mode = 1
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Animtator/Sprite2D:region_rect")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4, 5, 6, 7, 7.5, 8, 8.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Rect2(0, 0, 16, 16), Rect2(16, 0, 16, 16), Rect2(32, 0, 16, 16), Rect2(16, 0, 16, 16), Rect2(0, 0, 16, 16), Rect2(16, 0, 16, 16), Rect2(32, 0, 16, 16), Rect2(16, 0, 16, 16)]
+}
+
+[sub_resource type="Animation" id="Animation_38rej"]
+resource_name = "walk_side"
+length = 2.0
+loop_mode = 1
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Animtator/Sprite2D:region_rect")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Rect2(0, 16, 16, 16), Rect2(16, 16, 16, 16), Rect2(32, 16, 16, 16), Rect2(16, 16, 16, 16)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_t1xgp"]
+_data = {
+&"RESET": SubResource("Animation_7dd06"),
+&"idle": SubResource("Animation_t1xgp"),
+&"walk_side": SubResource("Animation_38rej")
+}
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cboxo"]
+radius = 3.0
+height = 16.0
 
 [node name="Player" type="CharacterBody2D" unique_id=1527038742]
 script = ExtResource("1_6cd4h")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1858104352]
+zoom = Vector2(5, 5)
 
 [node name="Animtator" type="Node2D" parent="." unique_id=1203250385]
 
 [node name="Sprite2D" type="Sprite2D" parent="Animtator" unique_id=149417364]
+texture = ExtResource("2_7dd06")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Animtator" unique_id=1960209081]
 root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_t1xgp")
+autoplay = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=249747997]
+visible = false
 shape = SubResource("CapsuleShape2D_cboxo")
